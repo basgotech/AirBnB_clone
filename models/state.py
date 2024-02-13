@@ -1,5 +1,5 @@
 #!/usr/bin/python
-"""state class reperesnts a state entry"""
+"""state class reperesnts a state entries"""
 from models.base_model import BaseModel
 
 
