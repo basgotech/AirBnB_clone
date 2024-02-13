@@ -1,5 +1,5 @@
 #!/usr/bin/python
-"""User class, derive from Basemodel"""
+"""User class, derive from Basemodel."""
 from models.base_model import BaseModel
 
 class User(BaseModel):
