@@ -1,5 +1,5 @@
 #!/usr/bin/python
-"""class represents a city entity"""
+"""class represents a city entity."""
 from models.base_model import BaseModel
 
 
