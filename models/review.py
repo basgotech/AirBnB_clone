@@ -1,5 +1,5 @@
 #!/usr/bin/python
-""" A Class Reperesenting a review"""
+""" A Class Reperesenting a reviews"""
 from models.base_model import BaseModel
 
 
