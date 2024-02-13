@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the Test case State
+Contains the Test case States
 """
 
 from datetime import datetime
