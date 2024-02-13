@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Test BaseModel for expected behavior and documentation"""
+"""Test BaseModel for expected behavior and documentations"""
 from datetime import datetime
 import inspect
 import pep8 as pycodestyle
