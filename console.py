@@ -1,19 +1,18 @@
 #!/usr/bin/python3
 """
-This class provides a console interface.
+This class provides a console ability.
 """
-
-import cmd
 from models.base_model import BaseModel
-from models import storage
-import json
-import shlex
 from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+from models import storage
+import json
+import shlex
+import cmd
 
 class HBNBCommand(cmd.Cmd):
     """
@@ -30,12 +29,6 @@ class HBNBCommand(cmd.Cmd):
         "Review": Review
     }
 
-    def do_nothing_at_all(self, arg):
-        """
-        Placeholder function that does nothing.
-        """
-        pass
-
     def do_quit(self, arg):
         """
         Exits the console.
@@ -48,6 +41,11 @@ class HBNBCommand(cmd.Cmd):
         """
         print("")
         return True
+    def do_nothing_at_all(self, arg):
+        """
+        Placeholder function that does nothing.
+        """
+        pass
 
     def emptyline(self):
         """
@@ -99,6 +97,30 @@ class HBNBCommand(cmd.Cmd):
             print(obj_instance)
         else:
             print("** no instance found **")
+    
+    def do_all(self, arg):
+        """
+        Displays all instances of a specified class.
+        """
+        storage.reload()
+
+        imp_val_arg = shlex.split(arg)
+        json_f = []
+        real_entity_dic = storage.all()
+
+        if not arg:
+            for unique_grap in real_entity_dic:
+                json_f.append(str(real_entity_dic[unique_grap]))
+            print(json.dumps(json_f))
+            return
+        
+        if imp_val_arg[0] in HBNBCommand.coll_mod_class.keys():
+            for unique_grap in real_entity_dic:
+                if imp_val_arg[0] in unique_grap:
+                    json_f.append(str(real_entity_dic[unique_grap]))
+            print(json.dumps(json_f))
+        else:
+            print("** class doesn't exist **")
 
     def do_destroy(self, arg):
         """
@@ -126,30 +148,6 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
         else:
             print("** no instance found **")
-
-    def do_all(self, arg):
-        """
-        Displays all instances of a specified class.
-        """
-        storage.reload()
-
-        imp_val_arg = shlex.split(arg)
-        json_f = []
-        real_entity_dic = storage.all()
-
-        if not arg:
-            for unique_grap in real_entity_dic:
-                json_f.append(str(real_entity_dic[unique_grap]))
-            print(json.dumps(json_f))
-            return
-        
-        if imp_val_arg[0] in HBNBCommand.coll_mod_class.keys():
-            for unique_grap in real_entity_dic:
-                if imp_val_arg[0] in unique_grap:
-                    json_f.append(str(real_entity_dic[unique_grap]))
-            print(json.dumps(json_f))
-        else:
-            print("** class doesn't exist **")
 
     def do_update(self, arg):
         """
@@ -193,6 +191,49 @@ class HBNBCommand(cmd.Cmd):
         else:
             setattr(item_object, imp_val_arg[2], imp_val_arg[3])
         storage.save()
+    
+    def default(self, arg):
+        """
+        Handles default command behavior.
+        """
+        arg = arg.strip()
+        input_data = arg.split(".")
+
+        record_dict = {
+            "all": self.do_all,
+            "count": self.do_count,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "update": self.do_update
+        }
+
+        if len(input_data) != 2:
+            cmd.Cmd.default(self, arg)
+            return
+        
+        category_name = input_data[0]
+        operation_name = input_data[1].split("(")[0]
+        phrase = ""
+        if (operation_name == "update" and input_data[1].split("(")[1][-2] == "}"):
+            user_data = input_data[1].split("(")[1].split(",", 1)
+            user_data[0] = shlex.split(user_data[0])[0]
+            phrase = "".join(user_data)[0:-1]
+            phrase = category_name + " " + phrase
+            self.handle_update(phrase.strip())
+            return
+        try:
+            user_data = input_data[1].split("(")[1].split(",")
+            for num in range(len(user_data)):
+                if (num != len(user_data) - 1):
+                    phrase = phrase + " " + shlex.split(user_data[num])[0]
+                else:
+                    phrase = phrase + " " + shlex.split(user_data[num][0:-1])[0]
+        except IndexError:
+            user_data = ""
+            phrase = ""
+        phrase = category_name + phrase
+        if (operation_name in record_dict.keys()):
+            record_dict[operation_name](phrase.strip())
 
     def handle_update(self, arg):
         """
@@ -248,48 +289,6 @@ class HBNBCommand(cmd.Cmd):
                 iteration_counter += 1
         print(iteration_counter)
 
-    def default(self, arg):
-        """
-        Handles default command behavior.
-        """
-        arg = arg.strip()
-        input_data = arg.split(".")
-
-        record_dict = {
-            "all": self.do_all,
-            "count": self.do_count,
-            "show": self.do_show,
-            "destroy": self.do_destroy,
-            "update": self.do_update
-        }
-
-        if len(input_data) != 2:
-            cmd.Cmd.default(self, arg)
-            return
-        
-        category_name = input_data[0]
-        operation_name = input_data[1].split("(")[0]
-        phrase = ""
-        if (operation_name == "update" and input_data[1].split("(")[1][-2] == "}"):
-            user_data = input_data[1].split("(")[1].split(",", 1)
-            user_data[0] = shlex.split(user_data[0])[0]
-            phrase = "".join(user_data)[0:-1]
-            phrase = category_name + " " + phrase
-            self.handle_update(phrase.strip())
-            return
-        try:
-            user_data = input_data[1].split("(")[1].split(",")
-            for num in range(len(user_data)):
-                if (num != len(user_data) - 1):
-                    phrase = phrase + " " + shlex.split(user_data[num])[0]
-                else:
-                    phrase = phrase + " " + shlex.split(user_data[num][0:-1])[0]
-        except IndexError:
-            user_data = ""
-            phrase = ""
-        phrase = category_name + phrase
-        if (operation_name in record_dict.keys()):
-            record_dict[operation_name](phrase.strip())
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
