@@ -1,5 +1,5 @@
 #!/usr/bin/python
-"""Amenity class represents a feature or facility"""
+"""Amenity class represents a feature or facilitys"""
 from models.base_model import BaseModel
 
 
