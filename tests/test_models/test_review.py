@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Test suite for the Review module.
+Test suite for the Review module
 """
 
 from datetime import datetime
