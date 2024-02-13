@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Define unittest test case for model amenity
+Define unittest test case for model amenity.
 """
 
 from datetime import datetime
