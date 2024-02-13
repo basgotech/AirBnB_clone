@@ -1,5 +1,5 @@
 #!/usr/bin/python
-""" A class Hold Place"""
+""" A class Hold Places"""
 from models.base_model import BaseModel
 
 
