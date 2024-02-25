@@ -1,13 +1,13 @@
 
 header{
-    position: fixed;
+    position: relative;
     width: 100%;
     height: 60px;
     display: flex;
     border-bottom: 1px solid #CCCCCC;
 }
 
-.container{
+.container_icon{
     position: relative;
     
     left: 20px;
@@ -19,3 +19,4 @@ header{
     width: 140px;
     height: 60px;
 }
+

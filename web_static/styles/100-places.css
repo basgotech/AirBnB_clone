@@ -9,7 +9,7 @@ article {
     width: 390px;
     padding: 30px;
     margin: 20px 0;
-    height: 400px;
+    height: 700px;
     border: 1px solid #FF5A5F;
     border-radius: 4px;
 }
@@ -94,3 +94,42 @@ h2 {
 .fot{
     position: relative;
 }
+
+
+
+.place-article {
+  margin-top: 40px;
+}
+
+.place-info p {
+  font-size: 14px;
+}
+
+.amenitiess{
+    display: flex;
+    flex-direction: column;
+}
+
+.amenitiess h2,
+.reviews h2 {
+  font-size: 16px;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+.amenities-list ul,
+.reviews-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.amenities-list li,
+.reviews-list li {
+  font-size: 14px;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+/* Add other places styles as needed */
+
